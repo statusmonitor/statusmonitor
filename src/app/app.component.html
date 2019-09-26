@@ -1,0 +1,26 @@
+<div *ngIf="checkUser else showError" id="wrap">
+  <header id="header">
+      <div ><app-menubar [tabledata]="tabledata"></app-menubar></div>
+  </header>
+
+  <section id="container">
+    
+      <div class="aside">
+          <div><app-sidebar [_allServertmp]="allServerStateData"></app-sidebar></div>
+      </div>
+
+        <div class="content">
+            <router-outlet></router-outlet>   
+        </div>
+          <div style="clear:both;"></div>
+      
+  </section>
+  
+  <footer id="footer"></footer>
+  <!-- <div class="hidden" *ngIf="tabledata"><app-details [_tmpList]="tabledata"></app-details></div> -->
+</div>
+
+<ng-template #showError>
+  <p>Unauthorized</p>
+</ng-template>
+

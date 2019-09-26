@@ -1,0 +1,29 @@
+
+ div.content {
+    width:70%;
+    height:100%; 
+    float: right; 
+    background:#eee; 
+    margin:0.5rem; 
+    padding:0; 
+    list-style:none;
+}
+ div.content_down {
+    background: white; 
+    height: 50%;
+ }
+ div.content_up {
+    background:white; 
+    height: 50%;
+}
+div.content_up_left{
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+div.content_up_right{
+    float: right;
+    width: 50%;
+    height: 100%;
+}

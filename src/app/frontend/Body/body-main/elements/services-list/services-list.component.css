@@ -1,0 +1,58 @@
+.object{
+    padding: 3px;
+    width: 300px;
+    float: left;
+}
+.example-ripple-container {
+    cursor: pointer;
+    text-align: center;
+    width: 290px;
+    line-height: 28px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .number{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid maroon;
+      box-sizing: border-box;
+      height: 100px;
+  }
+
+  .container {
+      height: 350px;
+  }
+  .title{
+    font-size: 20px;
+  }
+  .status{
+    font-size: 15px;
+    padding: 30px;
+    float: left;
+  }
+  .content{
+    font-size: 15px;
+    float: left;
+  }
+  .count{
+    font-size: 14px;
+    float: right;
+  }
+  
+  table {
+    width: 100%;
+  }
+  .searchField{
+    height: 45px;
+    font-size: 12px;
+  }
+  
+  .infos{
+    padding: 10px;
+  }

@@ -1,0 +1,166 @@
+<div *ngIf="showData">
+    <div class="container">
+        <div mat-dialog-content>
+            <div class="left">
+                <span class="content">Schnittstelle :  </span> <span class="content_result">{{showData.schnittstelle}}</span> <br>
+                <span class="content">Method :  </span> <span class="content_result">{{showData.methode}}</span> <br>
+                <span class="content">Time :  </span> <span class="content_result">{{showData.methode}}</span> <br>
+                <span class="content">Server :</span> <span class="content_result">{{showData.server}}</span> <br>
+                <span class="content">Sitzung :</span> <span class="content_result">{{showData.sitzung}}</span> <br>
+                <span class="content">Duration :</span> <span class="content_result">{{showData.duration}}</span> <br>
+                <span class="content">Duration DB :</span> <span class="content_result">{{showData.durationDB}}</span> <br>
+                <span class="content">Duration External :</span> <span class="content_result">{{showData.durationExternal}}</span> <br>
+                <span class="content">Date Entered :</span> <span class="content_result">{{showData.dateEntered}}</span> <br>
+                <span class="content">Start date :</span> <span class="content_result">{{showData.startdate}}</span> <br>
+                <span class="content">End date :</span> <span class="content_result">{{showData.enddate}}</span> <br>
+                <span class="content">Enviroment :</span> <span class="content_result">{{showData.env}}</span> <br>
+                <span class="content">Error code :</span> <span class="content_result">{{showData.errorCode}}</span> <br>
+                <span class="content">Parameter :</span> <span class="content_result">{{showData.params}}</span> <br>
+                <span class="content">Debug :</span> <span class="content_result">{{showData.debug}}</span> <br>
+                <span class="content">Result :</span> <span class="content_result">{{showData.result}}</span> <br>
+            </div>         
+
+            <div class="right">
+                <div class="content">Error Message :</div> <br>
+                <span class="content_message">{{showData.errorMessage}}</span>
+            </div>
+
+        </div>
+    </div>
+</div> 
+        
+<div *ngIf="showData" mat-dialog-actions class="buttons">
+        <span *ngIf="option == 'list'">
+        <button [disabled]="!flag2" mat-raised-button color="primary" (click)="loeschen()">Löschen</button>
+        <button *ngIf="status == '1'" [disabled]="!flag1" mat-raised-button color="primary" (click)="openDialog('ablegen')">Ablegen</button>
+        <button *ngIf="status == '2'" [disabled]="!flag3" mat-raised-button color="primary" (click)="openDialog('oeffnen')">Öffnen</button>
+        <button *ngIf="status == '0'" [disabled]="!flag3" mat-raised-button color="primary" (click)="openDialog('uebernehmen')">Übernehmen</button>
+        <button *ngIf="status == '1'" mat-raised-button color="primary" (click)="openDialog('gefixt')">Gefixt</button>
+        <button *ngIf="tfsBug != undefined"  mat-raised-button color="primary" (click)="openDialog('entkoppeln')">TFS entkoppeln</button>
+        <button *ngIf="tfsBug == undefined" mat-raised-button color="primary" (click)="openDialog('erstellen')">TFS-Bug erstellen</button>
+        <button *ngIf="tfsBug == undefined" mat-raised-button color="primary" (click)="openDialog('verknpfen')">TFS-Bug verknpfen</button>
+        </span>
+        <span><button mat-raised-button color="primary" (click)="abbrechen()"  value="ablegen"  cdkFocusInitial>Abbrechen</button></span>
+    </div>
+
+
+
+<ng-template #showAlert>
+        <p matDialogTitle><mat-icon>notification_important</mat-icon> Info</p>
+        <p matDialogContent class="text">{{message}}</p>
+        <mat-dialog-actions align="end">
+          <button mat-button mat-raised-button color="primary" (click)="abbrechen()" matDialogClosecdkFocusInitial>OK</button>
+        </mat-dialog-actions>
+</ng-template>
+
+<ng-template #dialogUserSelect>
+    <form ngForm #dialogUserSelect=ngForm (ngSubmit)="markOpenFunctionIssue(dialogUserSelect)">
+        <p matDialogTitle><mat-icon>notification_important</mat-icon> select user</p>
+        <div matDialogContent class="text">
+            <mat-form-field>
+                <mat-select ngModel #selectedUser="ngModel" name="selectedUser" placeholder="select user" required>
+                    <mat-label>test</mat-label>
+                    <mat-option value='"+Session.fullname+"' selected>Ich</mat-option>
+                    <mat-option value='Christian Langenbach'>Christian Langenbach</mat-option>
+                    <mat-option value='Dennis Schmerbeck'>Dennis Schmerbeck</mat-option>
+                    <mat-option value='Dominique Hindenberg'>Dominique Hindenberg</mat-option>
+                    <mat-option value='Katja Müller'>Katja M&uuml;ller</mat-option>
+                    <mat-option value='Kyeongseon Choe'>Kyeongseon Choe</mat-option>
+                    <mat-option value='Marcel Link'>Marcel Link</mat-option>
+                    <mat-option value='Markus Schneider'>Markus Schneider</mat-option>
+                    <mat-option value='Michel Digoh'>Michel Digoh</mat-option>
+                    <mat-option value='Philip Otterbach'>Philip Otterbach</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <mat-dialog-actions align="end">
+            <button type="submit" mat-button mat-raised-button color="primary">Übernehmen</button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>
+ 
+<ng-template #dialogFixBug>
+        <form ngForm #dialogFixBug=ngForm (ngSubmit)="markFixOpenFunctionIssue(dialogFixBug)">
+            <p matDialogTitle><mat-icon>notification_important</mat-icon> Bug verlinken </p>
+            <div matDialogContent class="text">
+                <mat-form-field>
+                    <input ngModel #work="ngModel" placeholder="Completed Work" name="work" type="number" matInput required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>zusätzliche Beschreibung</mat-label>
+                    <textarea matInput ngModel #beschreibung="ngModel" name="beschreibung" placeholder="zusätzliche Beschreibung" required></textarea>
+                </mat-form-field>
+            </div>
+        
+            <mat-dialog-actions align="end">
+                <button type="submit" mat-button mat-raised-button color="primary">Übernehmen</button>
+                <button mat-button mat-raised-button color="primary" matDialogClose cdkFocusInitial>close</button>
+            </mat-dialog-actions>
+        </form>
+</ng-template>
+
+<ng-template #dialogLinkBug>
+        <form ngForm #dialogLinkBug=ngForm (ngSubmit)="Statusmonitor_linkTFS(dialogLinkBug)">
+            <p matDialogTitle><mat-icon>notification_important</mat-icon> Bug verlinken </p>
+            <div matDialogContent class="text">
+                <mat-form-field>
+                    <mat-label>TFS-Nummer</mat-label>
+                    <input ngModel #number="ngModel" placeholder="TFS-Nummer" name="number" type="number" matInput required>
+                </mat-form-field>
+            </div>
+        
+            <mat-dialog-actions align="end">
+                <button type="submit" mat-button mat-raised-button color="primary">Übernehmen</button>
+                <button mat-button mat-raised-button color="primary" matDialogClose cdkFocusInitial>close</button>
+            </mat-dialog-actions>
+        </form>
+</ng-template>
+
+<ng-template #dialogNewBug>
+    <form ngForm #dialogNewBug=ngForm  (ngSubmit)="createTFSBug(dialogNewBug)">
+        <p matDialogTitle><mat-icon>notification_important</mat-icon> Bug fixen</p>
+        <div matDialogContent class="text">
+
+            <mat-form-field>
+                <mat-select ngModel #zuweisen="ngModel" name="zuweisen" placeholder="Zuweisen" required>
+                        <mat-option value='"+Session.fullname+"' selected>Ich</mat-option>
+                        <mat-option value='Christian Langenbach'>Christian Langenbach</mat-option>
+                        <mat-option value='Dennis Schmerbeck'>Dennis Schmerbeck</mat-option>
+                        <mat-option value='Dominique Hindenberg'>Dominique Hindenberg</mat-option>
+                        <mat-option value='Katja Müller'>Katja M&uuml;ller</mat-option>
+                        <mat-option value='Kyeongseon Choe'>Kyeongseon Choe</mat-option>
+                        <mat-option value='Marcel Link'>Marcel Link</mat-option>
+                        <mat-option value='Markus Schneider'>Markus Schneider</mat-option>
+                        <mat-option value='Michel Digoh'>Michel Digoh</mat-option>
+                        <mat-option value='Philip Otterbach'>Philip Otterbach</mat-option>
+                </mat-select>
+                <div *ngIf="!zuweisen.valid && zuweisen.touched">This field is required.</div>
+
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select ngModel #prio="ngModel" name="prio" placeholder="Prio" required>
+                        <mat-option value='1' >1</mat-option>
+                        <mat-option value='2' >2</mat-option>
+                        <mat-option value='3' >3</mat-option>
+                        <mat-option value='4' selected>4</mat-option>
+                        <mat-option value='5' >5</mat-option>
+                        <mat-option value='6' >6</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput ngModel #work="ngModel" name="work" placeholder="Completed Work" required>
+            </mat-form-field>
+
+            <mat-form-field>
+            <textarea matInput ngModel #beschreibung="ngModel" name="beschreibung" placeholder="zusätzliche Beschreibung" required></textarea>
+            </mat-form-field>
+        </div>
+        <mat-dialog-actions align="end">
+            <button type="submit" mat-button mat-raised-button color="primary">Übernehmen</button>
+            <button mat-button mat-raised-button color="primary"  matDialogClose cdkFocusInitial>abbrechen</button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

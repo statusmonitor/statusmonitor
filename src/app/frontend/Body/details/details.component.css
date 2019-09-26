@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+  }
+  .searchField{
+    height: 45px;
+    font-size: 12px;
+    float: left;
+  }
+  div{
+      padding: 0px;
+  }
+  tr {
+    cursor: pointer;
+  }
+  .mat-row:hover {
+    background-color:lightgray;
+  }
+
+  button{
+    float: right;
+    margin: 5px;
+  }
+
+  .hide{
+    display:none;
+  }  
+
+  th,td{
+    text-align: center;
+    vertical-align: middle;
+  }
+  th.mat-header-cell {
+    text-align: center;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }

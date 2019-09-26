@@ -1,0 +1,16 @@
+<div class="content">
+    <div class="canvas">
+        <canvas id="lineChart2_details"></canvas>
+    </div>
+    <div class="center"> 
+        <span>
+            <input type="datetime-local" step="1" [value]="von" (change)="von=$event.target.value" >
+        </span>
+        <span> ~ </span>
+        <span>
+            <input type="datetime-local" data-date-format="DDMMYYYY" step="1" [value]="bis" (change)="bis=$event.target.value">
+        </span>
+        <button mat-raised-button (click)="suchen()" color="primary">suchen</button>
+    </div>
+    
+</div>    

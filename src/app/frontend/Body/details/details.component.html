@@ -1,0 +1,193 @@
+<mat-tab-group>
+    <mat-tab label="LIST"> 
+        <div>
+            <div>
+                <table mat-table [dataSource]="dataSource_list" matSort class="mat-elevation-z8">
+                        <!-- Position Column -->
+                    <ng-container matColumnDef="id" > 
+                    <th mat-header-cell *matHeaderCellDef class="hide" > id </th>
+                    <td mat-cell *matCellDef="let element"class="hide" > {{element.id}} </td>
+                    </ng-container> 
+                                    
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef  mat-sort-header> status </th>
+                    <td mat-cell *matCellDef="let element" >
+                            <p *ngIf="element.status == 0">Offen</p> 
+                            <p *ngIf="element.status == 1">In Bearbeitung</p> 
+                            <p *ngIf="element.status == 2">Gefixt</p> 
+                    </td>
+                    </ng-container>
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="TFSBug" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> TFS-Bug </th>
+                    <td mat-cell *matCellDef="let element" ><p *ngIf="element.TFSBug">Bug {{element.TFSBug}}</p></td>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="TraceID" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> TraceID </th>
+                    <td mat-cell *matCellDef="let element" > {{element.TraceID}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="Schnittstelle">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Schnittstelle </th>
+                    <td mat-cell *matCellDef="let element" > {{element.Schnittstelle}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="Methode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Methode </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Methode}} </td>
+                    </ng-container>
+                    
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="BearbeitetVon">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bearbeitet<br>Von </th>
+                    <td mat-cell *matCellDef="let element" > {{element.BearbeitetVon}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="AnzahlFehler">
+                    <th mat-header-cell *matHeaderCellDef  mat-sort-header> Anzahl<br>Fehler </th>
+                    <td mat-cell *matCellDef="let element"> {{element.AnzahlFehler}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="LetzterFehler">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> LetzterFehler </th>
+                    <td mat-cell *matCellDef="let element" > {{element.LetzterFehler}} </td>
+                    </ng-container>
+    
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="createBy">
+                    <th mat-header-cell *matHeaderCellDef class="hide" > Anzahl<br>Fehler </th>
+                    <td mat-cell *matCellDef="let element" class="hide" > {{element.createBy}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="critical">
+                    <th mat-header-cell *matHeaderCellDef class="hide"> Letzter<br>Fehler </th>
+                    <td mat-cell *matCellDef="let element" class="hide" > {{element.critical}} </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns_list"></tr>
+                    <tr mat-row (click)="rowclick(row,'list')" *matRowDef="let row; columns: displayedColumns_list;"></tr>
+                </table>
+                <div class="searchField">
+                    <mat-form-field>
+                        <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+                    </mat-form-field>
+                </div> 
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+        </div>    
+    </mat-tab>
+
+    <mat-tab label="LOG"> 
+    <div>
+        <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource_log">
+                
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="TFSBug">
+                    <th mat-header-cell *matHeaderCellDef> TFS-Bug </th>
+                    <td mat-cell *matCellDef="let element"> {{element.TFSBug}} </td>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="TraceID">
+                    <th mat-header-cell *matHeaderCellDef> TraceID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.TraceID}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="Schnittstelle">
+                    <th mat-header-cell *matHeaderCellDef> Schnittstelle </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Schnittstelle}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="Methode">
+                    <th mat-header-cell *matHeaderCellDef> Methode </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Methode}} </td>
+                    </ng-container>
+                    
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="Sitzung">
+                    <th mat-header-cell *matHeaderCellDef class="hide"> Sitzung </th>
+                    <td mat-cell *matCellDef="let element" class="hide"> {{element.Sitzung}} </td>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Parameter">
+                    <th mat-header-cell *matHeaderCellDef class="hide"> Parameter </th>
+                    <td mat-cell *matCellDef="let element" class="hide"> {{element.Parameter}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="ErrorCode">
+                    <th mat-header-cell *matHeaderCellDef> Error<br>Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ErrorCode}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="ErrorMessage">
+                    <th mat-header-cell *matHeaderCellDef> Error<br>Message </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ErrorMessage}} </td>
+                    </ng-container>
+    
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Result">
+                    <th mat-header-cell *matHeaderCellDef> Result </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Result}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="Duration">
+                    <th mat-header-cell *matHeaderCellDef> Duration </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Duration}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="Server">
+                    <th mat-header-cell *matHeaderCellDef> Server </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Server}} </td>
+                    </ng-container>
+            
+                <!-- Name Column -->
+                    <ng-container matColumnDef="Debug">
+                    <th mat-header-cell *matHeaderCellDef class="hide"> Debug </th>
+                    <td mat-cell *matCellDef="let element" class="hide"> {{element.Debug}} </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="User">
+                    <th mat-header-cell *matHeaderCellDef> User </th>
+                    <td mat-cell *matCellDef="let element"> {{element.User}} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="Kundenkennung">
+                    <th mat-header-cell *matHeaderCellDef class="hide"> Kunden<br>kennung </th>
+                    <td mat-cell *matCellDef="let element" class="hide"> {{element.Kundenkennung}} </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns_log"></tr>
+                    <tr mat-row (click)="rowclick(row,'log')" *matRowDef="let row; columns: displayedColumns_log;"></tr>
+                </table>
+                <div class="searchField">
+                    <mat-form-field>
+                        <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Filter">
+                    </mat-form-field>
+                </div>
+                <mat-paginator #paginator2 [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+

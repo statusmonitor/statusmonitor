@@ -1,0 +1,26 @@
+<div class="mat-elevation-z6">
+    <mat-toolbar color="primary" class="navbar">
+        <div class="center">
+            <span>
+                <mat-list>
+                    <mat-list-item [matMenuTriggerFor]="menu">
+                    <a class="umgebung">{{umgebung}}</a>
+                    </mat-list-item>
+                </mat-list>
+    
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item class="mat-menu-item" (click)="onToggleSidenav('LIVE')"><p class="text">LIVE</p></button>
+                    <button mat-menu-item class="mat-menu-item"  (click)="onToggleSidenav('TEST')"><p class="text">TEST</p></button>
+                    <button mat-menu-item class="mat-menu-item"  (click)="onToggleSidenav('SCHLUNG')"><p class="text">SCHLUNG</p></button>
+                    <button mat-menu-item class="mat-menu-item"  (click)="onToggleSidenav('DEV')"><p class="text">DEV</p></button>
+                </mat-menu>
+            </span>
+        </div>
+        
+        <div>
+            <span><a routerLink="/main">HOME</a></span>
+            <span><a routerLink="/details">TABLE</a></span>
+        </div>
+    </mat-toolbar>
+        
+</div>

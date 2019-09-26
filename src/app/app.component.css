@@ -1,0 +1,37 @@
+div#wrap {
+    width:95%; 
+    margin:0 auto;
+}
+
+nav#nav {
+    background:#dfd;
+}
+     
+section#container { 
+    background: white;
+    height: 100%;
+    width: 100%;
+}
+
+ div.aside { 
+    width:23%; 
+    float:left; 
+    height:100%;
+    background: white;
+}
+
+ div.content {
+    width:73%;
+    height:100%; 
+    float: right; 
+}
+.hidden{
+    display: none;
+}
+
+    
+div#warp, nav#nav,
+section#container, div.content, aside#aside,
+nav#nav ul { margin:0.5rem; padding:0; list-style:none; }
+nav#nav ul li { background:#eee; padding:10px; display:inline-block; }
+section#container::after { content:""; display:block; clear:both; }
