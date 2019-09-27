@@ -43,16 +43,6 @@
         <span><button mat-raised-button color="primary" (click)="abbrechen()"  value="ablegen"  cdkFocusInitial>Abbrechen</button></span>
     </div>
 
-
-
-<ng-template #showAlert>
-        <p matDialogTitle><mat-icon>notification_important</mat-icon> Info</p>
-        <p matDialogContent class="text">{{message}}</p>
-        <mat-dialog-actions align="end">
-          <button mat-button mat-raised-button color="primary" (click)="abbrechen()" matDialogClosecdkFocusInitial>OK</button>
-        </mat-dialog-actions>
-</ng-template>
-
 <ng-template #dialogUserSelect>
     <form ngForm #dialogUserSelect=ngForm (ngSubmit)="markOpenFunctionIssue(dialogUserSelect)">
         <p matDialogTitle><mat-icon>notification_important</mat-icon> select user</p>

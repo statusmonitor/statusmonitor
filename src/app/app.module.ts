@@ -30,12 +30,13 @@ import { WebloginService } from './guard/weblogin/weblogin.service';
 import { LoginSuccessComponent } from './frontend/login/login-success/login-success.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AppConfig } from '../../app.config';
+import { AlertModule } from 'ngx-alerts';
 
 export function initializeApp(appConfig:AppConfig){
   return ()=>appConfig.load();
 }
 const config: SocketIoConfig ={
-  url:"http://localhost:3001",//"http://linux-entwicklung.sw.buhl-data.com:3001"
+  url:"http://linux-entwicklung.sw.buhl-data.com:3001",
   options:{}
 }
 
@@ -70,6 +71,7 @@ let guard = {
     FormsModule,
     ReactiveFormsModule,
     NgxMaterialTimepickerModule,
+    AlertModule.forRoot({maxMessages: 3, timeout: 5000, position: 'right'}),
     SocketIoModule.forRoot(config)
   ],
   providers: [

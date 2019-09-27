@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start:prod": "ng serve --prod --proxy-config proxy.js  --host 0.0.0.0 --disableHostCheck true", 
+    "start:prod": "ng serve --prod --proxy-config proxy.js  --host 0.0.0.0 --disableHostCheck true",
     "start:dev": "ng serve --proxy-config proxy.js",
     "build:dev": "ng build --dev --source-map=false",
     "build:prod": "ng build --prod --source-map=false",
@@ -28,6 +28,7 @@
     "moment": "^2.24.0",
     "ng-pick-datetime": "^7.0.0",
     "ng2-charts": "^2.3.0",
+    "ngx-alerts": "^3.4.5",
     "ngx-cookie-service": "^2.2.0",
     "ngx-material-timepicker": "^4.0.2",
     "ngx-socket-io": "^3.0.1",
