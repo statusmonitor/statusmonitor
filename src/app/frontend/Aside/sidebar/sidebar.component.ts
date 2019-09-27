@@ -1,5 +1,5 @@
 import { Component, OnInit,Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AllServerStateService,allServerStateElement,AllServer } from 'src/app/service/allServerState/all-server-state.service';
+import { AllServerStateService,allServerStateElement,AllServer } from 'src/app/service/ajax/allServerState/all-server-state.service';
 
 @Component({
   selector: 'app-sidebar',

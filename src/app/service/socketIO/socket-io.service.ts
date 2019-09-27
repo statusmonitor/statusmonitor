@@ -22,21 +22,15 @@ export class SocketIOService {
     this.socket.on('disconnect',()=>{
       //console.log(`disconnected from client`)
     })
-
+    
     this.socket.on('saveUserInfo',(res)=>{
-      if(res.user) this.clients = res.user;
-      this.id = res.id; 
-      console.log(`${this.clients[this.id].user} : connected`);
-    });
+      this.id = res["id"]; 
+    })
+    this.socket.on('delUsers',(user)=>{delete this.clients[user];})
 
-    this.socket.on('delUserInfo',(user)=>{
-      console.log(`${this.clients[user].user} : disconnected`);
-      delete this.clients[user];
-    });
   }
-  
   initSocket(){
-    this.env = localStorage.getItem('env').toLowerCase();
+    this.env = localStorage.getItem('env');
     this.user = localStorage.getItem('user');
     let obj = {
       "id" : this.id,

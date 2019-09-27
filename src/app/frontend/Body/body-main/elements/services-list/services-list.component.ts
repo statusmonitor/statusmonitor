@@ -1,6 +1,6 @@
 import { Component, OnInit,Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorListService,PERIODICELEMENT_LIST,SERVICES} from 'src/app/service/ajax/error-list.service';
+import { ErrorListService,PERIODICELEMENT_LIST,SERVICES} from 'src/app/service/ajax/errorList/error-list.service';
 
 
 @Component({

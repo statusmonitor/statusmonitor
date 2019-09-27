@@ -1,9 +1,9 @@
-import { Component, OnInit,ViewChild,Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ErrorPageComponent } from '../error-page/error-page.component';
 import { MatDialog } from '@angular/material';
-import { ErrorListService, PERIODICELEMENT_LIST, PERIODICELEMENT_LOG, DISPLAYEDCOLUMNS_LISTS, DISPLAYEDCOLUMNS_LOGS,ERRORLIST_STATIC} from 'src/app/service/ajax/error-list.service';
+import { ErrorListService, PERIODICELEMENT_LIST, PERIODICELEMENT_LOG, DISPLAYEDCOLUMNS_LISTS, DISPLAYEDCOLUMNS_LOGS,ERRORLIST_STATIC} from 'src/app/service/ajax/errorList/error-list.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
@@ -34,7 +34,7 @@ export class DetailsComponent implements OnInit {
   @ViewChild('paginator2', {static: true}) paginator_log: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  ngOnChanges(changes: SimpleChanges) {}
+  ngOnChanges() {}
   constructor(
     public dialog: MatDialog,
     private getErrList:ErrorListService,

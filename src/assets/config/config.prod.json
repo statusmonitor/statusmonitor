@@ -1,0 +1,15 @@
+{
+  "env":{
+    "name":"prod"
+  },
+
+  "SocketIoConfig" : {
+      "url":"http://linux-entwicklung.sw.buhl-data.com:3001",
+      "options":{}
+    },
+
+    "weblogin":{
+      "url":"http://weblogin.sw.buhl-data.com/v0/login/60",
+      "service":"60"
+  }
+}

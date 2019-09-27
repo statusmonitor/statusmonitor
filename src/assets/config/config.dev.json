@@ -1,0 +1,14 @@
+{
+    "env":{
+        "name":"dev"
+    },
+
+    "SocketIoConfig" : {
+        "url":"http://localhost:3001",
+        "options":{}
+    },
+    "weblogin":{
+        "url":"http://weblogin.sw.buhl-data.com/v0/login/61",
+        "service":"61"
+    }
+}

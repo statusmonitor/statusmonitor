@@ -1,6 +1,6 @@
 import { Component, OnInit,ViewChild, TemplateRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorListService,detailsElement } from 'src/app/service/ajax/error-list.service';
+import { ErrorListService,detailsElement } from 'src/app/service/ajax/errorList/error-list.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm} from '@angular/forms';
@@ -62,7 +62,7 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
       (data)=>{
         if(data.success){
           if(!data.complexdata.Mule[0]){
-            this.alert("Es gibt kein Details");
+            this.alert("Die Details wurde nicht gefunden.");
           }
 
           if(/*user !==session ||*/ (this.tfsBug)){

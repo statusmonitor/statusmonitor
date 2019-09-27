@@ -10,7 +10,7 @@ import { Chart } from 'chart.js';
 })
 export class Mule2DetailsComponent implements OnInit {
   dialogdata:muleStateElement;
-  LineChart;
+  LineChart:any;
   von: string;
   bis: string;
   fRam:string;

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,13 +12,13 @@ import { MuleServer2Component } from './frontend/Body/body-main/elements/mule-se
 import { ServicesListComponent } from './frontend/Body/body-main/elements/services-list/services-list.component';
 import { DetailsComponent } from './frontend/Body/details/details.component';
 import { BodyMainComponent } from './frontend/Body/body-main/body-main.component';
-import { ErrorListService } from './service/ajax/error-list.service';
+import { ErrorListService } from './service/ajax/errorList/error-list.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorPageComponent } from './frontend/Body/error-page/error-page.component';
 import { SocketIoModule,SocketIoConfig } from 'ngx-socket-io';
 import { SocketIOService } from './service/socketIO/socket-io.service';
 import { MuleChartService } from './service/muleChart/mule-chart.service';
-import { AllServerStateService } from './service/allServerState/all-server-state.service';
+import { AllServerStateService } from './service/ajax/allServerState/all-server-state.service';
 import { MuleDetailsComponent } from './frontend/Body/body-main/elements/mule-server1/mule-details/mule-details.component';
 import { Mule2DetailsComponent } from './frontend/Body/body-main/elements/mule-server2/mule2-details/mule2-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,9 +29,13 @@ import { TokenInterceptorService } from './guard/HttpInterceptor/token-intercept
 import { WebloginService } from './guard/weblogin/weblogin.service';
 import { LoginSuccessComponent } from './frontend/login/login-success/login-success.component';
 import { CookieService } from 'ngx-cookie-service';
+import { AppConfig } from '../../app.config';
 
+export function initializeApp(appConfig:AppConfig){
+  return ()=>appConfig.load();
+}
 const config: SocketIoConfig ={
-  url:'http://localhost:3001',//'http://linux-entwicklung.sw.buhl-data.com:3001',
+  url:"http://localhost:3001",//"http://linux-entwicklung.sw.buhl-data.com:3001"
   options:{}
 }
 
@@ -68,7 +72,22 @@ let guard = {
     NgxMaterialTimepickerModule,
     SocketIoModule.forRoot(config)
   ],
-  providers: [ErrorListService,SocketIOService,WebloginService,MuleChartService,AllServerStateService,AuthGuard,guard,CookieService],
+  providers: [
+    AppConfig,{
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig],
+      multi:true
+    },
+    ErrorListService,
+    SocketIOService,
+    WebloginService,
+    MuleChartService,
+    AllServerStateService,
+    AuthGuard,
+    guard,
+    CookieService
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorPageComponent,MuleDetailsComponent,Mule2DetailsComponent]
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit,Input, OnChanges, SimpleChanges } from '@angular/core';
-import { PERIODICELEMENT_LIST } from 'src/app/service/ajax/error-list.service';
+import { PERIODICELEMENT_LIST } from 'src/app/service/ajax/errorList/error-list.service';
 import { SocketIOService } from 'src/app/service/socketIO/socket-io.service';
 
 @Component({
@@ -22,14 +22,15 @@ export class MenubarComponent implements OnInit,OnChanges {
 
   onToggleSidenav(env:string){
     if(env){
+      env = env.toLowerCase();
       let user = localStorage.getItem("user");
     let obj:object = {
       "oldenv":this.umgebung.toLowerCase(),
-      "newenv":env.toLowerCase(),
+      "newenv":env,
       "user":user
     };
     this.socket.callSocket('update',obj);
-    this.umgebung = env.toLocaleUpperCase();
+    this.umgebung = env.toUpperCase();
     localStorage.setItem("env",env);
     }
   }
@@ -38,7 +39,7 @@ export class MenubarComponent implements OnInit,OnChanges {
     this.socket.getMessage().subscribe(
       (message)=>{
         let env = message;
-        this.umgebung = env.toLocaleUpperCase();
+        this.umgebung = env.toUpperCase();
       }
     )
 

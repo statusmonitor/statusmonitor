@@ -1,11 +1,11 @@
 const request = require('request');
-const config = require('../config/config').mule;
 let io;
 
-function fetch (event,env,callbackEvent){
-    const url = `${config.selectEnv(env)}kontaktcenteradministration/${event}`;
+function fetch (event,env){
+
+    const url = 'http://mule-dev.sw.buhl-data.com:8080/kontaktcenteradministration/' + event;
     const auth =  Buffer.from('Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78').toString("base64");
-    const postData = {"env": config.convertEnv(env)};
+    const postData = {"env": env};
     const options = {
         url: url,
         method: 'POST',
@@ -15,18 +15,18 @@ function fetch (event,env,callbackEvent){
         },
         form: postData
     }
-
     request.post(options,(err,res)=>{
         if(!res) return;
-        let data = JSON.parse(res.body);
-        data.target = env;
-        let room = config.convertEnv(env);
-        if(callbackEvent){
+        let json = JSON.stringify(res.body);
+        let data = JSON.parse(json);
+        let event = json.substring(4,json.indexOf('&'));
+        let room = JSON.parse(res.body).env;
+
+        if(event){
             if (room) {
-                io.to(room).emit(callbackEvent, data);
+                io.to(room).emit(event, data);
             } else {
-                console.log("room ist nicht mehr vorhanden : " + room);
-                io.emit(callbackEvent,data);
+                io.emit(event,data);
             }
         }
     });

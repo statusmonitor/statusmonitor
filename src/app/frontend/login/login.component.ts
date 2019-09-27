@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WebloginService } from 'src/app/guard/weblogin/weblogin.service';
+import { AppConfig } from 'app.config';
 
 @Component({
   selector: 'app-login',

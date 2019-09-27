@@ -30,8 +30,8 @@ export class MuleServer1Component implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges){
     if(changes["mule1State"]["currentValue"]){
-      let tmp:any = changes["mule1State"]["currentValue"];
-      this.mule1State = tmp;
+      let tmp:any = changes;
+      this.mule1State = tmp.mule1State.currentValue.map;
       this.cpu = this.mule1State["cpuint"];
       this.cpuStr = this.cpu.toString();
       this.GRAM = this.mule1State["usedram"];

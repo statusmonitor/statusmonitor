@@ -69,7 +69,6 @@ function getMyRights(data) {
     let getRights = "kontaktcenteradministration/Rights_getMyRights";
 
     rights = mule(data,getRights,config.env);
-    console.log(rights);
     return rights;
 }
 
