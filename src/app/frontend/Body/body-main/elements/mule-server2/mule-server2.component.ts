@@ -1,6 +1,6 @@
 import { Component, OnInit,Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Chart } from 'chart.js';
-import { muleStateElement } from 'src/app/service/muleChart/mule-chart.service';
+import { muleStateElement, MuleChartService } from 'src/app/service/muleChart/mule-chart.service';
 import { SocketIOService } from 'src/app/service/socketIO/socket-io.service';
 import { MatDialog } from '@angular/material';
 import { Mule2DetailsComponent } from './mule2-details/mule2-details.component';
@@ -12,7 +12,7 @@ import { Mule2DetailsComponent } from './mule2-details/mule2-details.component';
 })
 export class MuleServer2Component implements OnInit, OnChanges {
 
-  LineChart:any;
+  lineChart:any;
   updateCnt = 0;
   nbElement = 10;
   cpu:number;
@@ -25,6 +25,7 @@ export class MuleServer2Component implements OnInit, OnChanges {
 
   constructor(
     public socket:SocketIOService,
+    private muleChartService:MuleChartService,
     public dialog: MatDialog
     ) { }
 
@@ -48,13 +49,13 @@ export class MuleServer2Component implements OnInit, OnChanges {
       this.FRAM = this.mule2State.freeram;
       this.RAM = this.mule2State.totalram;
        */
-      this.setDataToChart(this.cpu);
+      this.setData(this.cpu);
     }
      
   }
   showdata(){}
 
-  callTest(): void {
+  open(): void {
     let showdata = this.mule2State;
     const dialogRef = this.dialog.open(Mule2DetailsComponent, {
       width: '60%',
@@ -67,88 +68,43 @@ export class MuleServer2Component implements OnInit, OnChanges {
     });
   }
   ngOnInit() {
-    //this.getMuleStateDirect();
     this.initChart();
   }
 
-  setDataToChart(cpu){
+  setData(cpu){
 
-    this.LineChart.data.labels.push(new Date());
-    this.LineChart.data.datasets.forEach(
+    this.lineChart.data.labels.push(new Date());
+
+    this.lineChart.data.datasets.forEach(
       (dataset) =>{dataset.data.push(cpu)});
 
       if(this.updateCnt >= this.nbElement){
         this.updateCnt = 0;
-        this.removeData(this.LineChart);
-        //this.LineChart.data.labels.shift();
-       // this.LineChart.data.datasets[0].data.shift();
+        this.removeData(this.lineChart);
 
       }else{
         this.updateCnt++;
-        this.LineChart.update();
+        this.lineChart.update();
       }
   }
   
    removeData(chart) {
      let label:number = 1;
      let data:number = 1;
+
     if(chart.data.datasets[0].data.length > 100){label = 11;data = 11;}
     chart.data.labels.splice(0, label);
 
     chart.data.datasets.forEach((dataset) => {
       dataset.data.splice(0, data);
     });
+
     chart.update();
 }
 
   initChart(){
-    // Line chart:
-    this.LineChart = new Chart('lineChart2', {
-      type: 'line',
-      data: {
-        datasets: [{
-          label: 'test',
-          data: [0],
-          fill:false,
-          borderColor:"blue",
-          borderWidth: 2,
-          pointBorderColor:""
-        }]
-      }, 
-
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title:{
-            text:"Mule-1",
-            display:false
-        },
-
-        scales: {
-          xAxes: [{
-            type: 'time',
-            time: {
-              displayFormats: {
-                second: 'h:mm:ss a'
-              }
-            }
-          }],
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true,
-                    callback: function (label,index,lebels){
-                      return label +" %";
-                    }
-                }
-            }]
-        },
-        legend: {display: false},
-        tooltips:{
-          enabled: false
-        }
-      }
-
-    });
+    let config:object = this.muleChartService.configForRealTime("Mule-2");
+    this.lineChart = new Chart('lineChart2',config);
   }
 
 }
