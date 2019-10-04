@@ -5,9 +5,10 @@ const config = require('../config/config');
 const mule = require('../modules/mule').getUserData;
 const checkAuth = require('../lib/auth');
 
-router.all('/weblogin/*',(req,res)=>{
+router.get('/weblogin/*',(req,res)=>{
     let weblogin = req.query.weblogin;
     if(!weblogin){
+        console.error(`bed request. event: weblogin`);
         res.status(400).send("bed request.");
         return;
     }
@@ -22,7 +23,10 @@ function webloginCheck (weblogin,req,res){
         headers: {'Content-Type': 'application/json'}
     };
     request.get(options,(err,res2)=>{
-        if(!res2) return;
+        if(!res2){
+            console.error(`response ist leer. event: webloginCheck`);
+            return;
+        } 
         let authdata = JSON.parse(res2.body);
         session(req,res,authdata);
     });
@@ -51,6 +55,7 @@ async function session(req, res, authdata) {
         if(hasAuth){
             res.redirect(`${config.weblogin.redirect.pageLocal}?user=${authdata.username}&sessionID=${sessionID}`);
         }else {
+            console.error(`Unauthorized user ${authdata.username} event: webloginCheck`);
             res.status(401).send('Unauthorized');
         }
     });
