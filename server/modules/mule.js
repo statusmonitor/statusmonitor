@@ -5,7 +5,7 @@ module.exports.getUserData = function (data,event,env){
     //let mule = env === 'dev' ? config.muleUrl.local : env === 'test' ? config.muleUrl.test : config.muleUrl.live;
 
     return new Promise((resolve,reject)=>{
-
+        const ev = event;
         const url = config.muleUrl.dev + event;
         const auth =  Buffer.from('Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78').toString("base64");
         const options = {
@@ -19,7 +19,11 @@ module.exports.getUserData = function (data,event,env){
         }
 
         request.post(options,(err,res)=>{
-            if(res == undefined) return;
+            if(res == undefined) {
+                console.error(`response ist leer. event: ${ev} env: ${env}`);
+                return;
+            }
+            
             let result = res.body;
             resolve(result);
         });
