@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm} from '@angular/forms';
 import { SocketIOService } from 'src/app/service/socketIO/socket-io.service';
-import { AlertService } from 'ngx-alerts';
+import { AlertServiceService } from 'src/app/service/alert/alert.service';
 
 @Component({
   selector: 'app-error-page',
@@ -40,7 +40,7 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     private getErrList:ErrorListService,
     private dialog: MatDialog,
     private socket:SocketIOService,
-    private alertService: AlertService,
+    private alertService: AlertServiceService,
     private _location: Location) { 
       this.option = this.routerParam.snapshot.queryParams.option; 
       this.id = this.routerParam.snapshot.queryParams.id;
@@ -59,7 +59,7 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
         if(data.success){
          
           if(!data.complexdata.Mule[0]){
-            this.alert("warning","Details wurde nicht gefunden.");
+            this.alertService.alert("warning","Details wurde nicht gefunden.");
           }
 
           if(/*user !==session ||*/ (this.tfsBug)){
@@ -87,35 +87,6 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
   abbrechen(){
     this._location.back();
   }
-
-  alert(option:string,message:string){
-    
-    switch(option){
-
-      case "success":
-          this.alertService.success({html: `<h6>${message}</h6>`});
-        break;
-        case "info":
-            this.alertService.info({html: `<h6>${message}</h6>`});
-        break;
-        case "danger":
-            this.alertService.danger({html: `<h6>${message}</h6>`});
-        break;
-        case "warning":
-            this.alertService.warning({html: `<h6>${message}</h6>`});
-        break;
-
-        default:
-            this.alertService.info({html: `<h6>${message}</h6>`});
-        break;
-    }
-
-    setTimeout(()=>{ 
-      this._location.back();
-    }, 1000);
-  }
-
-
 
   openDialog(option:string){
     if(option){
@@ -164,8 +135,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     obj = {"id":this.id};
     this.getErrList.loeschen(this.id).subscribe(
       (res)=>{
-        if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-        else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+        if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+        else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
       }
     );
     //this.socket.callSocket('mule',obj); 
@@ -176,8 +147,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     obj = {"id":this.id};
     this.getErrList.ablegen(this.id).subscribe(
       (res)=>{
-        if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-        else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+        if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+        else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
       }
     );
     //this.socket.callSocket('mule',obj);
@@ -187,8 +158,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     obj = {"id":this.id};
     this.getErrList.oeffnen(this.id).subscribe(
       (res)=>{
-        if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-        else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+        if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+        else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
       }
     );
     //this.socket.callSocket('mule',obj);
@@ -199,8 +170,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     obj = {"id":this.id};
     this.getErrList.gefixt(this.id).subscribe(
       (res)=>{
-        if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-        else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+        if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+        else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
       }
     );
    // this.socket.callSocket('mule',obj);
@@ -210,8 +181,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
     obj = {"id":this.id};
     this.getErrList.entkoppeln(this.id).subscribe(
       (res)=>{
-        if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-        else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+        if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+        else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
       }
     );
    // this.socket.callSocket('mule',obj);
@@ -226,8 +197,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
       };
       this.getErrList.uebernehmen(obj).subscribe(
         (res)=>{
-          if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-          else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+          if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+          else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
         }
       );
      // this.socket.callSocket('mule',obj);
@@ -244,8 +215,8 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
        };
        this.getErrList.gefixt_tfsBug(obj).subscribe(
         (res)=>{
-          if(res) this.alert("success","der Befehl wurde erfolgreich ausgeführt");
-          else this.alert("danger","der Befehl konnte nicht durchgeführt werden.");
+          if(res) this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
+          else this.alertService.alert("danger","der Befehl konnte nicht durchgeführt werden.");
         }
       );
       // this.socket.callSocket('mule',obj);
@@ -264,7 +235,7 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
       };
       this.getErrList.erstellen(obj).subscribe(
         (res)=>{
-          this.alert("success","der Befehl wurde erfolgreich ausgeführt");
+          this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
         }
       );
     //  this.socket.callSocket('mule',obj);
@@ -281,7 +252,7 @@ export class ErrorPageComponent implements OnInit,AfterViewInit {
       };
       this.getErrList.verknpfen(obj).subscribe(
         (res)=>{
-          this.alert("success","der Befehl wurde erfolgreich ausgeführt");
+          this.alertService.alert("success","der Befehl wurde erfolgreich ausgeführt");
         }
       );
      // this.socket.callSocket('mule',obj);

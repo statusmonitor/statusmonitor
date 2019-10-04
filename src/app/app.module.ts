@@ -28,15 +28,15 @@ import { LoginComponent } from './frontend/login/login.component';
 import { TokenInterceptorService } from './guard/HttpInterceptor/token-interceptor.service';
 import { WebloginService } from './guard/weblogin/weblogin.service';
 import { LoginSuccessComponent } from './frontend/login/login-success/login-success.component';
-import { CookieService } from 'ngx-cookie-service';
 import { AppConfig } from '../../app.config';
 import { AlertModule } from 'ngx-alerts';
+import { AlertServiceService } from './service/alert/alert.service';
 
 export function initializeApp(appConfig:AppConfig){
   return ()=>appConfig.load();
 }
 const config: SocketIoConfig ={
-  url:"http://linux-entwicklung.sw.buhl-data.com:3001",
+  url:"http://localhost:3001",
   options:{}
 }
 
@@ -88,7 +88,7 @@ let guard = {
     AllServerStateService,
     AuthGuard,
     guard,
-    CookieService
+    AlertServiceService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorPageComponent,MuleDetailsComponent,Mule2DetailsComponent]
