@@ -6,7 +6,8 @@ const config = require('./config/config');
 
 let clients = {};
 
-let socketAPI = function(server){
+module.exports.socketAPI = function(server){
+    
     let io = socketIO(server);
     fetch.io(io);
     events(io);
@@ -80,4 +81,3 @@ function events(io){
 
 
 
-module.exports.socketAPI = socketAPI;

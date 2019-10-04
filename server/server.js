@@ -28,4 +28,4 @@ let server = http.createServer(app).listen(PORT,()=>{
 }) ;
 
 socketAPI(server);
-exports.server = server;
+module.exports.server = server;

@@ -72,7 +72,7 @@ function getMyRights(data) {
     return rights;
 }
 
-exports.router = router;
+module.exports.router = router;
 
 
 

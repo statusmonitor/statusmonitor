@@ -22,5 +22,5 @@ router.get('/user/login/:id',(req,res)=>{
 });
 
 
-exports.router = router;
+module.exports.router = router;
 

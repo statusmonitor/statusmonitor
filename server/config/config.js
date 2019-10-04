@@ -21,8 +21,10 @@ let weblogin = {
     allowedAuth: 'root'
   };
 
-module.exports.env = env;
-module.exports.weblogin = weblogin;
-module.exports.muleUrl = muleUrl;
-module.exports.port = port;
+module.exports = {
+    env : env,
+    weblogin : weblogin,
+    muleUrl : muleUrl,
+    port : port    
+}
 

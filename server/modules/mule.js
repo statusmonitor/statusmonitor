@@ -1,7 +1,7 @@
 const request = require('request');
 const config = require('../config/config');
 
-function getUserData (data,event,env){
+module.exports.getUserData = function (data,event,env){
     //let mule = env === 'dev' ? config.muleUrl.local : env === 'test' ? config.muleUrl.test : config.muleUrl.live;
 
     return new Promise((resolve,reject)=>{
@@ -25,6 +25,3 @@ function getUserData (data,event,env){
         });
     });
 }
-
-module.exports.getUserData = getUserData;
-
