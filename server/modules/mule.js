@@ -20,10 +20,9 @@ module.exports.getUserData = function (data,event,env){
 
         request.post(options,(err,res)=>{
             if(res == undefined) {
-                console.error(`response ist leer. event: ${ev} env: ${env}`);
+                reject(`response ist leer. event: ${ev} env: ${env}`);
                 return;
             }
-            
             let result = res.body;
             resolve(result);
         });

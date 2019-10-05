@@ -32,49 +32,58 @@ function webloginCheck (weblogin,req,res){
     });
 }
 
-async function session(req, res, authdata) {
+function session(req, res, authdata) {
+
     let userdata = {};
     let rights = {};
     let sessionID = req.sessionID;
     let _obj = {
         "user_ldap": authdata.username,
         "env": config.env
-    };
+    }; 
 
-    userdata = await searchbyusername(_obj);
-    rights = await getMyRights(_obj);
+    searchbyusername(_obj)
+    .then((data)=>{
+            if(data)userdata = data;
+
+            getMyRights(_obj)
+            .then((data)=>{
+                if(data)rights = data;
+                hasAuth(req,res,sessionID,rights,userdata);
+            },(error)=>{console.error(error)});
+            
+    },(error)=>{console.error(error)});
+}
+
+function hasAuth(req,res,sessionID,rights,userdata){
+
     let hasAuth = checkAuth.hasAuth(rights);
     req.session.is_logined = true;
     req.session.firstname = `${JSON.parse(userdata).complexdata.surname}`;
     req.session.lastname = `${JSON.parse(userdata).complexdata.givenname}`;
+    req.session.fullname = `${JSON.parse(userdata).complexdata.fullname}`;
     req.session.env = `${userdata.env}`;
     req.session.rights = `${rights}`;
     req.session.hasAuth = hasAuth;
 
     req.session.save(()=>{
         if(hasAuth){
-            res.redirect(`${config.weblogin.redirect.pageLocal}?user=${authdata.username}&sessionID=${sessionID}`);
+            res.redirect(`${config.weblogin.redirect.pageLocal}?user=${req.session.fullname}&sessionID=${sessionID}`);
         }else {
-            console.error(`Unauthorized user ${authdata.username} event: webloginCheck`);
+            console.error(`Unauthorized user ${req.session.fullname} event: webloginCheck`);
             res.status(401).send('Unauthorized');
         }
     });
 }
 
 function searchbyusername(data) {
-    let userdata = {};
     let getUserdataUrl = "kontaktcenter/ldap/searchbyusername";
-
-    userdata = mule(data,getUserdataUrl,config.env);
-    return userdata;
+    return mule(data,getUserdataUrl,config.env);
 }
 
 function getMyRights(data) {
-    let rights = {};
     let getRights = "kontaktcenteradministration/Rights_getMyRights";
-
-    rights = mule(data,getRights,config.env);
-    return rights;
+    return mule(data,getRights,config.env);;
 }
 
 module.exports.router = router;
