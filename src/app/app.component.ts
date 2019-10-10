@@ -3,7 +3,6 @@ import { SocketIOService } from 'src/app/service/socketIO/socket-io.service';
 import { allServerStateElement } from './service/ajax/allServerState/all-server-state.service';
 import { ErrorListService,ERRORLIST_STATIC,PERIODICELEMENT_LIST,PERIODICELEMENT_LOG } from './service/ajax/errorList/error-list.service';
 import { MuleChartService,muleStateElement } from './service/muleChart/mule-chart.service';
-import { WebloginService } from './guard/weblogin/weblogin.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit {
   constructor(
     private socket:SocketIOService,
     private errorListService:ErrorListService,
-    private authService:WebloginService,
     private muleChartService:MuleChartService) {}
 
    ngOnInit() {
@@ -34,21 +32,8 @@ export class AppComponent implements OnInit {
       this.socket.listenSocket('CallMuleState').subscribe(
       (res)=>{this.getMuleState(res);});
 
-    this.authService.getMessage().subscribe(
-      (message)=>{
-        this.checkUser = message;
-        this.authCheck();
-      });
-
+      this.socket.initUser();
    }
-
-   authCheck(){
-    if(!this.checkUser){
-      console.error("401 : Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden.");
-     }else{
-      this.socket.initSocket();
-     }
-  }
 
   getAllServer(data){    
     this.allServerStateData = JSON.parse(data)["callAllServerState&"];
