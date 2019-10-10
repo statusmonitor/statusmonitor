@@ -22,7 +22,7 @@
                 <p class="simpletext bold">http://172.16.102.1/DQServer/2.0.0/DQServer.asmx</p>
                 <p class="simpletext bold red" *ngIf="server.DQ1">ALIVE</p>
                 <p class="simpletext bold red" *ngIf="!server.DQ1">ERROR - {{server.eDate1}}</p>
-
+ 
                 <p class="simpletext bold">http://172.16.102.2/DQServer/2.0.0/DQServer.asmx</p>
                 <p class="simpletext bold red" *ngIf="server.DQ2">ALIVE</p>
                 <p class="simpletext bold red" *ngIf="!server.DQ2">ERROR - {{server.eDate2}}</p>
@@ -31,6 +31,25 @@
                 <p class="simpletext bold red" *ngIf="server.SR">ALIVE</p>
                 <p class="simpletext bold red" *ngIf="!server.SR">ERROR - {{server.eDateS}}</p>
             </ng-template>
+
+            <mat-action-row>
+            </mat-action-row>
+        
+        </mat-expansion-panel> 
+    </div>
+    <br>
+    <div>
+        <mat-expansion-panel *ngIf="userList">
+                
+            <mat-expansion-panel-header>
+                    
+                <mat-panel-title>connected users </mat-panel-title>
+
+            </mat-expansion-panel-header>
+
+            <div *ngFor="let user of userList">
+                <p class="simpletext bold">{{user["_name"]}} : {{user["_room"]}}</p>
+            </div>
 
             <mat-action-row>
             </mat-action-row>
