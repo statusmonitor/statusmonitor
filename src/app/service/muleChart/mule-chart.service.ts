@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Buffer } from 'buffer';
 import { Subject, Observable } from 'rxjs';
+import { UserService } from '../users/user.service';
+import { AppConfig } from 'app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class MuleChartService {
 
   private _url = "/kontaktcenteradministration/";
   private auth =  new Buffer('Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78').toString("base64");
-  private env = "test";
+  env:string = AppConfig.settings.env.name;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -20,7 +22,9 @@ export class MuleChartService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userservice:UserService) { }
   private messageSource = new Subject<muleStateElement>();
   messageTransfer = this.messageSource.asObservable();
   sendMessage(message:muleStateElement){

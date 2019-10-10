@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Buffer } from 'buffer';
 import { Observable,Subject } from 'rxjs';
+import { UserService } from '../../users/user.service';
+import { AppConfig } from 'app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,8 @@ export class ErrorListService {
 
   private _url = "/kontaktcenteradministration/";
   private auth =  new Buffer('Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78').toString("base64");
-  env:string = localStorage.getItem("env");
+  env:string = AppConfig.settings.env.name;
+  
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -21,7 +24,10 @@ export class ErrorListService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userService:UserService
+    ) {}
 
   private messageSource = new Subject<PERIODICELEMENT_LIST[]>();
   messageTransfer = this.messageSource.asObservable();
