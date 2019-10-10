@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebloginService } from 'src/app/guard/weblogin/weblogin.service';
+import { UserService } from 'src/app/service/users/user.service';
+import { AppConfig } from 'app.config';
 
 @Component({
   selector: 'app-login-success',
@@ -12,6 +14,7 @@ export class LoginSuccessComponent implements OnInit {
   constructor(
     private routerParam:ActivatedRoute,
     private auth:WebloginService,
+    private userService:UserService,
     private router:Router
     ) { }
   sessionID:string;
@@ -23,7 +26,8 @@ export class LoginSuccessComponent implements OnInit {
     if(this.sessionID){
       this.auth.setSessionID(this.sessionID);
       this.auth.setUser(this.user);
-      this.auth.setEnv("dev");
+      this.auth.setEnv(AppConfig.settings.env.name);
+      //this.userService.setUserCurrentEnv("dev");
       //this.auth.sendMessage(true);
       this.router.navigate(['/main']);
     }
