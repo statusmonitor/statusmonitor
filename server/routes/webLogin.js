@@ -8,7 +8,6 @@ const checkAuth = require('../lib/auth');
 router.get('/weblogin/*',(req,res)=>{
     let weblogin = req.query.weblogin;
     if(!weblogin){
-        console.error(`bed request. event: weblogin`);
         res.status(400).send("bed request.");
         return;
     }
@@ -58,10 +57,11 @@ function session(req, res, authdata) {
 function hasAuth(req,res,sessionID,rights,userdata){
 
     let hasAuth = checkAuth.hasAuth(rights);
+    let complexdata = JSON.parse(userdata).complexdata;
     req.session.is_logined = true;
-    req.session.firstname = `${JSON.parse(userdata).complexdata.surname}`;
-    req.session.lastname = `${JSON.parse(userdata).complexdata.givenname}`;
-    req.session.fullname = `${JSON.parse(userdata).complexdata.fullname}`;
+    req.session.firstname = `${complexdata.surname}`;
+    req.session.lastname = `${complexdata.givenname}`;
+    req.session.fullname = `${complexdata.fullname}`;
     req.session.env = `${userdata.env}`;
     req.session.rights = `${rights}`;
     req.session.hasAuth = hasAuth;
@@ -70,7 +70,7 @@ function hasAuth(req,res,sessionID,rights,userdata){
         if(hasAuth){
             res.redirect(`${config.weblogin.redirect.pageLocal}?user=${req.session.fullname}&sessionID=${sessionID}`);
         }else {
-            console.error(`Unauthorized user ${req.session.fullname} event: webloginCheck`);
+            console.error(`Unauthorized user ${req.session.fullname}`);
             res.status(401).send('Unauthorized');
         }
     });
@@ -83,7 +83,7 @@ function searchbyusername(data) {
 
 function getMyRights(data) {
     let getRights = "kontaktcenteradministration/Rights_getMyRights";
-    return mule(data,getRights,config.env);;
+    return mule(data,getRights,config.env);
 }
 
 module.exports.router = router;

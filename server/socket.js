@@ -7,51 +7,42 @@ const config = require('./config/config');
 let clients = {};
 
 module.exports.socketAPI = function(server){
-    
     let io = socketIO(server);
     fetch.io(io);
     events(io);
 }
 
 function events(io){
-
     io.on("connection",((so)=>{
         
         so.on("disconnect",()=>{
             delClient(so.id);
         });
-
         so.on('getIDFromServer',()=>{
             io.emit('init',so.id);
         }); 
         so.on('initUserToServer',(data)=>{
             initUser(so,data["obj"],data["user"]);
         }); 
-    
-    
         so.on('updateEnv',(data)=>{
             updateEnv(so,data);
         });
-        
     }));
         
     function delClient(id){
-        console.log("deleted user:" + id);
         io.emit('delUser',id);
         delete clients[id];
-        
     }
 
-    function initUser(so,data,client){
-        let room = data["env"];
-        let userName = data["user"];
-        let user = client;
+    function initUser(so,option,client){
+        let room = option["env"];
+        let userName = option["user"];
         
-        initClients(so.id,user);
+        initClients(so.id,client);
         updateClients();
         fetchData(room);
         so.join(room);
-        console.log(`${userName} : connected`);
+        console.log(`${userName}:${room}  connected`);
     }
 
     function updateEnv(so,data){
@@ -59,8 +50,6 @@ function events(io){
         let newEnv = data["newenv"];
         let oldEnv=data["oldenv"];
         let userName = data["user"];
-        
-        console.log("update called user : " + userid)
 
         checkAuth(so,oldEnv,newEnv,userName);
         changeEnv_Client(userid,newEnv);
@@ -95,7 +84,6 @@ function events(io){
     function changeEnv_server(so,oldEnv,env){
         so.leave(oldEnv);
         so.join(env);
-        console.log(`server changed from '${oldEnv}' to '${env}'`)
         fetchData(env);
     }
         
@@ -105,23 +93,12 @@ function events(io){
         fetch.fetch('Statusmonitor_getMyState',env);
     }
 
-
-    function createClient(userid,room,userName){
-        let client = new Object();
-        client.id = userid;
-        client.room = room;
-        client.user = userName;
-        
-        return client;
-    }
-
     function initClients(id,user){
         clients[id] = user;
     }
 
     function changeEnv_Client(userid,newEnv){
         clients[userid]["_room"] = newEnv;
-        //updateClients(clients);
     }
 
     function updateClient(client){
@@ -129,10 +106,8 @@ function events(io){
     }
 
     function updateClients(){
-        console.log("all : " + JSON.stringify(clients))
         io.emit('saveUsers',{clients});
     }
-
 
 }
 
