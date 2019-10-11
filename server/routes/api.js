@@ -20,7 +20,6 @@ router.all('/event/*',(req,res,next)=>{
 
 router.post('/event/allState',(req,res)=>{
      let event = req.body.event;
-     let env = req.body.env;
      if(req.body.data){
         call.fetch(event,"test");
         call.fetch(event,"dev");
