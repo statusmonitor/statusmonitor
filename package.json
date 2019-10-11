@@ -7,6 +7,7 @@
     "start:dev": "ng serve --proxy-config proxy.js",
     "build:dev": "ng build --dev --source-map=false",
     "build:prod": "ng build --prod --source-map=false",
+    "kill" : "sudo killall ng",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
