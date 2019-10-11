@@ -1,4 +1,6 @@
+let title = 'StatusMonitorNode';
 let port = 3001;
+
 let env = "dev";
 let muleUrl = {
     "local": "http://localhost:8080/",
@@ -22,6 +24,7 @@ let weblogin = {
   };
 
 module.exports = {
+    title:title,
     env : env,
     weblogin : weblogin,
     muleUrl : muleUrl,

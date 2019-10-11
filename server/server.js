@@ -10,7 +10,7 @@ const http = require('http');
 const config = require('./config/config');
 const session = require('express-session');
 const socketAPI = require('./socket').socketAPI;
-
+process.title = config.title;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(session({ 
