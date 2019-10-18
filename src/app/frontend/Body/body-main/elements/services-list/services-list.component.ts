@@ -1,6 +1,6 @@
 import { Component, OnInit,Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { ErrorListService,PERIODICELEMENT_LIST,SERVICES} from 'src/app/service/ajax/errorList/error-list.service';
+import { ErrorListService,PERIODICELEMENT_LIST,Services} from 'src/app/service/ajax/errorList/error-list.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class ServicesListComponent implements OnInit, OnChanges{
   @Input() 
   errorList:PERIODICELEMENT_LIST[];
   menge:number;
-  services:Array<SERVICES>;
+  services:Array<Services>;
   constructor(private _router:Router, private errorListService:ErrorListService) { }
   
   getServiceData(){

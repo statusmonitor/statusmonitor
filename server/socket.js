@@ -88,9 +88,9 @@ function events(io){
     }
         
     function fetchData(env){ 
-        fetch.fetch('Statusmonitor_getAllServerStatus',env);
-        fetch.fetch('Statusmonitor_getMuleErrorList',env);
-        fetch.fetch('Statusmonitor_getMyState',env);
+        fetch.fetch('Statusmonitor_getAllServerStatus',env,"callAllServerState");
+        fetch.fetch('Statusmonitor_getMuleErrorList',env,"callErrorList");
+        fetch.fetch('Statusmonitor_getMyState',env,"CallMuleState");
     }
 
     function initClients(id,user){

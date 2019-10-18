@@ -32,8 +32,10 @@ export class BodyMainComponent implements OnInit {
     getMessageFromMuleStateService(){
       this.subscription = this.muleChartService.getMessage().subscribe(
         (message:any) => {
-          this.muleState1 = (message.state1 !== null) ? message.state1 : {};
-          this.muleState2 = (message.state2 !== null) ? message.state2 : {};
+          let div:string = message.target;
+          div = div.substring(div.length -1);
+          this.muleState1 = (div === "1") ? message : undefined;
+          this.muleState2 = (div === "2") ? message : undefined;
         }
       );
     }

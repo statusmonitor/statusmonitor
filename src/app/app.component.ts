@@ -36,23 +36,22 @@ export class AppComponent implements OnInit {
    }
 
   getAllServer(data){    
-    this.allServerStateData = JSON.parse(data)["callAllServerState&"];
+    this.allServerStateData = data["callAllServerState&"];
   }
   
   getErrorList(data){
-    let d = JSON.parse(data);
-    let tmp:any = JSON.parse(data)["callErrorList&"].mule.errorList.data;
-    let tmpLog:any = JSON.parse(data)["callErrorList&"].mule.errorLog.data;
+    let d = data["callErrorList&"];
+    let tmp:any = d["mule"]["errorList"].data;
+    let tmpLog:any = d["mule"]["errorLog"].data;
     this.tabledata =  this.errorListService.convertToJSON("list",tmp);
     this.tabledataLog =  this.errorListService.convertToJSON("",tmpLog);
-    this.errorListService.setErrorListStatic(this.tabledata);
     this.errorListService.sendMessage(this.tabledata);
     this.errorListService.sendMessage_log(this.tabledataLog);
-    this.errorListService.createServicesList(ERRORLIST_STATIC);
+    this.errorListService.createServicesList(this.tabledata);
   }
 
   getMuleState(data){
-    this.muleState = JSON.parse(data)["CallMuleState&"];
+    this.muleState = data;
     this.muleChartService.sendMessage(this.muleState);
   }
 

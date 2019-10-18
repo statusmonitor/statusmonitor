@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const call = require('../modules/fetch.js');
 let errorListHash;
-//let config = require('../config/config');
 
-setInterval(call.fetch,5000,'Statusmonitor_getMyState',"test");
-setInterval(call.fetch,5000,'Statusmonitor_getMyState',"dev");
-setInterval(call.fetch,5000,'Statusmonitor_getMyState',"live");
+setInterval(call.fetch,5000,'myState',"dev1","CallMuleState");
+setInterval(call.fetch,5000,'myState',"dev2","CallMuleState");
 
 router.all('/event/*',(req,res,next)=>{
     let auth = req.query.auth;
@@ -21,9 +19,9 @@ router.all('/event/*',(req,res,next)=>{
 router.post('/event/allState',(req,res)=>{
      let event = req.body.event;
      if(req.body.data){
-        call.fetch(event,"test");
-        call.fetch(event,"dev");
-        call.fetch(event,"live");
+        call.fetch(event,"test","callAllServerState");
+        call.fetch(event,"dev","callAllServerState");
+        call.fetch(event,"live","callAllServerState");
         res.status(200).send();
     }else{
         res.status(200).send();
@@ -34,9 +32,9 @@ router.post('/event/muleErrorList',(req,res)=>{
     let event = req.body.event;
     if(errorListHash !== req.body.data){
         errorListHash = req.body.data;
-        call.fetch(event,"test");
-        call.fetch(event,"dev");
-        call.fetch(event,"live");
+        call.fetch(event,"test","callErrorList");
+        call.fetch(event,"dev","callErrorList");
+        call.fetch(event,"live","callErrorList");
         res.status(200).send();
     }else{
         res.status(200).send();
