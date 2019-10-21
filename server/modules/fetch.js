@@ -8,7 +8,8 @@ module.exports = {
 
     fetch : function (event,env,callbackEvent){
         const ev = event;
-        const url = `${config.selectEnv(config.convertEnv(env))}kontaktcenteradministration/${event}`;
+        const url = 'http://mule-dev.sw.buhl-data.com:8080/kontaktcenteradministration/' + event;
+        //
         const auth =  Buffer.from('Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78').toString("base64");
         const postData = {"env": config.convertEnv(env)};
         const options = {
@@ -21,13 +22,21 @@ module.exports = {
             form: postData
         }
         request.post(options,(err,res)=>{
+            let data;
+
             if(!res) {
                 console.error(`response ist leer. event: ${ev} env: ${env}`);
                 return;
             }
-            let data = JSON.parse(res.body);
-            data.target = env;
-            let room = config.convertEnv(env);
+            try {
+                data = JSON.parse(res.body);
+              } catch (e) {
+                io.emit('state', `Empty response error:${config.convertEnv(env)}`);
+                return console.error(e);
+              }
+
+              let room = config.convertEnv(env);
+              data.target = env;
 
             if(callbackEvent){
                 if (room) {
