@@ -25,8 +25,7 @@ export class ErrorListService {
   };
 
   constructor(
-    private http: HttpClient,
-    private userService:UserService
+    private http: HttpClient
     ) {}
 
   private messageSource = new Subject<PERIODICELEMENT_LIST[]>();
@@ -154,54 +153,78 @@ export class ErrorListService {
   }
     
 
-  createServicesList(param:PERIODICELEMENT_LIST[]):Array<SERVICES>{
-    let service;
-    let sw:boolean = false;
+  createServicesList(param:PERIODICELEMENT_LIST[]):Array<Services>{
+    let service:Services;
     let check:number;
     SERVICES_STATIC = [];
     
     for(let i=0; i<param.length;i++){
+      if(this.isBlank(SERVICES_STATIC)){
 
-      if(SERVICES_STATIC === undefined || SERVICES_STATIC.length === 0){
-        service = new SERVICES(param[i].Schnittstelle);
-        service.serviceName = param[i].Schnittstelle;
-        if(param[i].status === '1') service.inBarbeitung = 1;
-        else if(param[i].status === '2') service.gefixt = 1;
-        else service.offen = 1;
-        
+        service = this.setService(param[i]);
         SERVICES_STATIC.push(service);
+
       }else{
         for(let j=0; j<SERVICES_STATIC.length;j++){
           check = 0;
-          if(SERVICES_STATIC[j].serviceName === param[i].Schnittstelle){
-            if(param[i].status === '1') SERVICES_STATIC[j].inBarbeitung = 1;
-            else if(param[i].status === '2') SERVICES_STATIC[j].gefixt = 1;
-            else SERVICES_STATIC[j].offen = 1;
+
+          if(this.searchSameElement(SERVICES_STATIC[j].serviceName, param[i].Schnittstelle)){
+            this.setServiceStatus(param[i],SERVICES_STATIC[j]);
+
             check++;
             break;
           }
         }
         if(check === 0){
-            service = new SERVICES(param[i].Schnittstelle);
-            service.serviceName = param[i].Schnittstelle;
-            if(param[i].status === '1') service.inBarbeitung = 1;
-            else if(param[i].status === '2') service.gefixt = 1;
-            else service.offen = 1;
-
-            SERVICES_STATIC.push(service);
+          service = this.setService(param[i]);
+          SERVICES_STATIC.push(service);
         }
       }
     }
+
     return SERVICES_STATIC;
+  }
+
+
+  setService(param:PERIODICELEMENT_LIST){
+    
+    let el:Services = new Services(param.Schnittstelle);
+    el.serviceName = param.Schnittstelle;
+
+    return this.setServiceStatus(param,el);
+  }
+  
+  setServiceStatus(param:PERIODICELEMENT_LIST,el:Services):Services{
+    if(param.status === '1') el.inBarbeitung = 1;
+    else if(param.status === '2') el.gefixt = 1;
+    else el.offen = 1;
+    return el;
+  }
+
+  searchSameElement(a:string,b:string):boolean{
+    if(a === b){return true;}
+    return false;
+  }
+
+
+  isBlank(arr:Array<Services>):boolean{
+    if(arr === undefined || arr.length === 0){
+      return true;
+    }
+    return false;
   }
 
   setErrorListStatic(val:PERIODICELEMENT_LIST[]){
     ERRORLIST_STATIC = val;
   }
-}
-export let ERRORLIST_STATIC:PERIODICELEMENT_LIST[];
-export let SERVICES_STATIC:Array<SERVICES> = [];
 
+}
+
+export let ERRORLIST_STATIC:PERIODICELEMENT_LIST[];
+export let SERVICES_STATIC:Array<Services> = [];
+export let DISPLAYEDCOLUMNS_LISTS: string[] = ['id','TFSBug', 'TraceID', 'Schnittstelle', 'Methode','BearbeitetVon', 'status', 'AnzahlFehler', 'LetzterFehler','createBy','critical'];
+export let DISPLAYEDCOLUMNS_LOGS: string[] =  ['TFSBug', 'TraceID', 'Schnittstelle', 'Methode','Sitzung', 'Parameter', 'ErrorCode', 'ErrorMessage'
+,'Result', 'Duration','Server', 'Debug', 'User', 'Kundenkennung'];
 
 export interface PERIODICELEMENT_LIST {
   id:string;
@@ -216,7 +239,6 @@ export interface PERIODICELEMENT_LIST {
   createBy:string;
   critical:string;
 }
-
 
 export interface PERIODICELEMENT_LOG {
   TFSBug: string;
@@ -262,12 +284,8 @@ export interface detailsElement {
   errorMessage: string;
 }
 
-export let DISPLAYEDCOLUMNS_LISTS: string[] = ['id','TFSBug', 'TraceID', 'Schnittstelle', 'Methode','BearbeitetVon', 'status', 'AnzahlFehler', 'LetzterFehler','createBy','critical'];
-export let DISPLAYEDCOLUMNS_LOGS: string[] =  ['TFSBug', 'TraceID', 'Schnittstelle', 'Methode','Sitzung', 'Parameter', 'ErrorCode', 'ErrorMessage'
-,'Result', 'Duration','Server', 'Debug', 'User', 'Kundenkennung'];
 
-
-export class SERVICES {
+export class Services {
   
   private _serviceName: string="";
   private _offen: number = 0;
