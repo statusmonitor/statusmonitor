@@ -4,6 +4,7 @@ import { Buffer } from 'buffer';
 import { Observable,Subject } from 'rxjs';
 import { UserService } from '../../users/user.service';
 import { AppConfig } from 'app.config';
+import { NotificationService } from '../../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,10 @@ export class ErrorListService {
   };
 
   constructor(
-    private http: HttpClient
-    ) {}
+    private notification:NotificationService,
+    private http: HttpClient) {
+      this.notification.requestPermisson();
+    }
 
   private messageSource = new Subject<PERIODICELEMENT_LIST[]>();
   messageTransfer = this.messageSource.asObservable();
@@ -197,6 +200,9 @@ export class ErrorListService {
   setServiceStatus(param:PERIODICELEMENT_LIST,el:Services):Services{
     if(param.status === '1') el.inBarbeitung = 1;
     else if(param.status === '2') el.gefixt = 1;
+    else if(param.status === '-1') {
+      this.showNotification(param.Schnittstelle,param.TraceID);
+    }
     else el.offen = 1;
     return el;
   }
@@ -213,6 +219,19 @@ export class ErrorListService {
     }
     return false;
   }
+
+  showNotification(schnittstelle:string, traceID:string){
+
+    let data: Array < any > = [];
+    data.push({
+        'title': 'Neuer Fehler',
+        'alertContent': `"Fehler in ${schnittstelle}:   Klick f&uuml;r Stacktrace. ${traceID}`,
+        'traceID':traceID,
+        'env':this.env
+    });
+
+    this.notification.generateNotification(data);
+   }
 
   setErrorListStatic(val:PERIODICELEMENT_LIST[]){
     ERRORLIST_STATIC = val;
