@@ -1,26 +1,36 @@
 let title = 'StatusMonitorNode';
 let port = 3001;
 
-let env = "dev";
+let env ={
+    "DEV":"dev",
+    "TEST":"test",
+    "LIVE":"live"
+};
+
 let mule = {
     "service":"kontaktcenteradministration",
     "authorization":"Statusmonitor:db41f2598fc1ecd2e407f3d8ce59fe78",
     convertEnv: function(env){
         switch(env){
-            case "dev" || "dev1" || "dev2":
+            case "dev" :
+            case "dev1" :
+            case "dev2" :
                     return "dev";
                 break;
 
-            case "test" || "test1" || "test2":
+            case "test" :
+            case  "test1" :
+            case "test2" :
                     return "test";
                 break;
 
-            case "live" || "live1" || "live2":
+            case "live":
+            case "live1":
+            case "live2":
                     return "live";
                 break;
 
             default :
-                    return "dev";
                 break;          
         }
     },
@@ -31,31 +41,30 @@ let mule = {
         switch(env){
 
             case 'local':
-                value = "http://localhost:8080/";
+                value = "http://localhost:8080/kontaktcenteradministration/";
             break;
 
             case 'dev':
-                value = "http://mule-dev.sw.buhl-data.com:8080/";
+                value = "http://mule-dev.sw.buhl-data.com:8080/kontaktcenteradministration/";
             break;
 
             case 'test1':
-                value = "http://mule-test1.sw.buhl-data.com:8080/";
+                value = "http://mule-test1.sw.buhl-data.com:8080/kontaktcenteradministration/";
             break;
 
             case 'test2':
-                value = "http://mule-test2.sw.buhl-data.com:8080/";
+                value = "http://mule-test2.sw.buhl-data.com:8080/kontaktcenteradministration/";
             break;
 
             case 'live1':
-                value = "http://mule-1.sw.buhl-data.com:8080/";
+                value = "http://mule-1.sw.buhl-data.com:8080/kontaktcenteradministration/";
             break;
 
             case 'live2':
-                value = "http://mule-2.sw.buhl-data.com:8080/";
+                value = "http://mule-2.sw.buhl-data.com:8080/kontaktcenteradministration/";
             break;
 
             default:
-                value = "http://localhost:8080/";
             break;  
 
         }
