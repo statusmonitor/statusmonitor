@@ -87,38 +87,7 @@ Nach der Implementierung aller Anforderungen müssen es weiterhin überprüft we
 -	Erstellung der Entwicklerdokumentation
 
                         
-                                                                                                                                                       
-
-
-
-## 1.	Projektphasen mit Zeitplanung in Stunden
-Analyse	40h
-• die Struktur des Monitor-Systems	30h
-• Kommunikation zwischen dem System und Mule	5h
-• Fehlerbehandlung	5h
-Entwurf	24h
-• Schnittstelle zum Monitor-System entwerfen	20h
-• Erstellung eines Komponentendiagramms	4h
-Implementierung	256h
-• Implementierung der Schnittstelle für Monitor-System	80h
-• Implementierung von Websocket Server 	80h
-• Erstellen der Methoden für Websocket in Mule	50h
-• Integration der Schnittstelle in Kontaktsystem	46h
-Abnahme und Einführung	8h
-• Bereitstellung von Visual Studio Code	1h
-• Installieren von Angular7, Node.js und Websocket usw.	7h
-Test	24h
-• Komponententest	8h
-      -Komponenten individuell und unabhängig prüfen	
-• Integrationstest	8h
-      -Schnittstellen der Komponenten prüfen	(4h)
-      -Zusammenspiel der Komponenten überprüfen	(4h)
-•Systemtest	8h
-      -Prüfen gegen funktionale und nicht funktionale Benutzer-Anforderungen	
-Erstellen der Dokumentation	48h
-• Erstellung der Projektdokumentation	24h
-• Erstellung der Entwicklerdokumentation	24h
-
+                 
 
 
 
